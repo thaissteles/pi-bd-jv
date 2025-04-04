@@ -1,0 +1,161 @@
+Modelo fiíco do Projeto
+
+ 
+CREATE TABLE Cliente (
+
+    ID_Cliente INTEGER PRIMARY KEY,
+
+    Nome VARCHAR,
+
+    DataNascimento DATE,
+
+    Telefone INTEGER,
+
+    Sexo CHAR,
+
+    UltimoContato DATE,
+
+    Email VARCHAR
+
+);
+ 
+CREATE TABLE Terapeuta (
+
+    ID_Terapeuta INTEGER PRIMARY KEY,
+
+    Formacao VARCHAR,
+
+    TempoAtuacao TIME,
+
+    Nome VARCHAR
+
+);
+ 
+CREATE TABLE Agendamento_Consulta (
+
+    ID_Agendamento INTEGER,
+
+    Status BOOLEAN,
+
+    Data DATE,
+
+    Queixa_Inicial VARCHAR,
+
+    DataAgendamento DATE,
+
+    HoraAgendamento TIME,
+
+    fk_Cliente_ID_Cliente INTEGER,
+
+    fk_Terapeuta_ID_Terapeuta INTEGER,
+
+    ID_Consulta INTEGER,
+
+    DataRealizacao DATE,
+
+    NotasConfidenciais VARCHAR,
+
+    Tratamentos VARCHAR,
+
+    fk_TipoAgendamento_ID_TipoAtendimento INTEGER,
+
+    fk_Horario_ID_Horario INTEGER,
+
+    PRIMARY KEY (ID_Agendamento, ID_Consulta)
+
+);
+ 
+CREATE TABLE TipoAgendamento (
+
+    ID_TipoAtendimento INTEGER PRIMARY KEY,
+
+    Remoto BOOLEAN,
+
+    Presencial BOOLEAN
+
+);
+ 
+CREATE TABLE TipoTerapia (
+
+    ID_TipoTerapia INTEGER PRIMARY KEY,
+
+    Nome VARCHAR,
+
+    DuracaoMedia TIME,
+
+    Descricao VARCHAR,
+
+    PreparoNecessario VARCHAR
+
+);
+ 
+CREATE TABLE Horario (
+
+    ID_Horario INTEGER PRIMARY KEY,
+
+    DiaSemana DATE,
+
+    HoraInicio TIME,
+
+    Disponivel BOOLEAN
+
+);
+ 
+CREATE TABLE Relacionamento_6 (
+
+    fk_TipoTerapia_ID_TipoTerapia INTEGER,
+
+    fk_Agendamento_Consulta_ID_Agendamento INTEGER,
+
+    fk_Agendamento_Consulta_ID_Consulta INTEGER
+
+);
+
+ALTER TABLE Agendamento_Consulta ADD CONSTRAINT FK_Agendamento_Consulta_2
+
+    FOREIGN KEY (fk_Cliente_ID_Cliente)
+
+    REFERENCES Cliente (ID_Cliente)
+
+    ON DELETE RESTRICT;
+
+ALTER TABLE Agendamento_Consulta ADD CONSTRAINT FK_Agendamento_Consulta_3
+
+    FOREIGN KEY (fk_Terapeuta_ID_Terapeuta)
+
+    REFERENCES Terapeuta (ID_Terapeuta)
+
+    ON DELETE CASCADE;
+
+ALTER TABLE Agendamento_Consulta ADD CONSTRAINT FK_Agendamento_Consulta_4
+
+    FOREIGN KEY (fk_TipoAgendamento_ID_TipoAtendimento)
+
+    REFERENCES TipoAgendamento (ID_TipoAtendimento)
+
+    ON DELETE RESTRICT;
+
+ALTER TABLE Agendamento_Consulta ADD CONSTRAINT FK_Agendamento_Consulta_5
+
+    FOREIGN KEY (fk_Horario_ID_Horario)
+
+    REFERENCES Horario (ID_Horario)
+
+    ON DELETE CASCADE;
+
+ALTER TABLE Relacionamento_6 ADD CONSTRAINT FK_Relacionamento_6_1
+
+    FOREIGN KEY (fk_TipoTerapia_ID_TipoTerapia)
+
+    REFERENCES TipoTerapia (ID_TipoTerapia)
+
+    ON DELETE RESTRICT;
+
+ALTER TABLE Relacionamento_6 ADD CONSTRAINT FK_Relacionamento_6_2
+
+    FOREIGN KEY (fk_Agendamento_Consulta_ID_Agendamento, fk_Agendamento_Consulta_ID_Consulta)
+
+    REFERENCES Agendamento_Consulta (ID_Agendamento, ID_Consulta)
+
+    ON DELETE RESTRICT;
+ 
